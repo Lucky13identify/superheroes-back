@@ -1,5 +1,4 @@
-// const { Superhero } = require('../../model');
-const { db } = require('../../firebase/config');
+const { db } = require("../../firebase/config");
 
 const getAll = async (req, res) => {
   try {
@@ -11,18 +10,24 @@ const getAll = async (req, res) => {
     let totalItems;
     let totalPages;
     if (limitNumber && pageNumber) {
-      const querySnapshot = await db.collection('superheroes').orderBy('nickName', 'asc').get();
+      const querySnapshot = await db
+        .collection("superheroes")
+        .orderBy("nickName", "asc")
+        .get();
       totalItems = querySnapshot.size;
       totalPages = Math.ceil(totalItems / limitNumber);
 
       snapshot = await db
-        .collection('superheroes')
-        .orderBy('nickName', 'asc')
+        .collection("superheroes")
+        .orderBy("nickName", "asc")
         .limit(limitNumber)
         .offset((pageNumber - 1) * limitNumber)
         .get();
     } else {
-      snapshot = await db.collection('superheroes').orderBy('nickName', 'asc').get();
+      snapshot = await db
+        .collection("superheroes")
+        .orderBy("nickName", "asc")
+        .get();
     }
 
     const superheroes = [];
@@ -36,7 +41,7 @@ const getAll = async (req, res) => {
     });
 
     res.json({
-      message: 'Get all heroes',
+      message: "Get all heroes",
       code: 200,
       data: superheroes,
       page: pageNumber,
@@ -44,7 +49,9 @@ const getAll = async (req, res) => {
       totalPages,
     });
   } catch (error) {
-    res.status(500).json({ status: 'Error', code: 500, message: 'Failed to get heroes' });
+    res
+      .status(500)
+      .json({ status: "Error", code: 500, message: "Failed to get heroes" });
   }
 };
 
